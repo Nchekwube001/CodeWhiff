@@ -5,6 +5,7 @@ import Java = require("tree-sitter-java");
 import Python = require("tree-sitter-python");
 import { JavaSmellDetector } from "./parsers/javaParser";
 import { PythonSmellDetector } from "./parsers/pythonParser";
+import { showReportPanel } from "./parsers/data/smellDetector";
 
 // Generic parser factory
 class ParserFactory {
@@ -33,7 +34,13 @@ let diagnostics: vscode.DiagnosticCollection;
 export function activate(ctx: vscode.ExtensionContext) {
   diagnostics = vscode.languages.createDiagnosticCollection("codeSmells");
   ctx.subscriptions.push(diagnostics);
-
+  const reportCmd = vscode.commands.registerCommand(
+    "codewhiff.showReport",
+    () => {
+      showReportPanel(ctx, diagnostics);
+    }
+  );
+  ctx.subscriptions.push(reportCmd);
   const javaDetector = new JavaSmellDetector();
   const pythonDetector = new PythonSmellDetector();
 
@@ -74,4 +81,8 @@ export function activate(ctx: vscode.ExtensionContext) {
     }
   );
   ctx.subscriptions.push(disposable);
+}
+
+export function deactivate() {
+  diagnostics.clear();
 }

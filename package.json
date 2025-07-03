@@ -15,7 +15,11 @@
     "commands": [
       {
         "command": "codewhiff.showSmellSummary",
-        "title": "Smell Code Summary"
+        "title": "Smell File (CodeWhiff)"
+      },
+      {
+        "command": "codewhiff.showReport",
+        "title": "Show Smell Report (CodeWhiff)"
       }
     ],
     "keybindings": [
@@ -23,8 +27,249 @@
         "command": "codewhiff.showSmellSummary",
         "key": "cmd+shift+t",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "codewhiff.showReport",
+        "key": "cmd+shift+r",
+        "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "CodeWhiff Smell Detector Settings",
+      "properties": {
+        "codewhiff.java.enableLongMethod": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Long Method detection for Java."
+        },
+        "codewhiff.java.longMethodThreshold": {
+          "type": "number",
+          "default": 30,
+          "minimum": 1,
+          "description": "Max statements in a Java method before flagging a Long Method."
+        },
+        "codewhiff.java.enableDeepNesting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Deep Nesting detection for Java."
+        },
+        "codewhiff.java.deepNestingThreshold": {
+          "type": "number",
+          "default": 4,
+          "minimum": 1,
+          "description": "Max nesting depth before flagging Deep Nesting."
+        },
+        "codewhiff.java.enableLongParameterList": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Long Parameter List detection for Java."
+        },
+        "codewhiff.java.longParameterListThreshold": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "Max parameters before flagging Long Parameter List."
+        },
+        "codewhiff.java.enableBooleanParameterList": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Too Many Boolean Parameters for Java."
+        },
+        "codewhiff.java.booleanParameterListThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Max boolean parameters before flagging Too Many Boolean Params."
+        },
+        "codewhiff.java.enableDataClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Data Class detection for Java."
+        },
+        "codewhiff.java.dataClassFieldThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Min fields (with zero methods) before flagging Data Class."
+        },
+        "codewhiff.java.enableGodClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable God Class detection for Java."
+        },
+        "codewhiff.java.godClassMemberThreshold": {
+          "type": "number",
+          "default": 20,
+          "minimum": 0,
+          "description": "Min total members (fields+methods) before flagging God Class."
+        },
+        "codewhiff.java.enableInterfaceOverload": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Interface Overload detection for Java."
+        },
+        "codewhiff.java.interfaceOverloadThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Max implemented interfaces before flagging Interface Overload."
+        },
+        "codewhiff.java.enableLongSwitch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Large Switch detection for Java."
+        },
+        "codewhiff.java.longSwitchThreshold": {
+          "type": "number",
+          "default": 8,
+          "minimum": 0,
+          "description": "Max switch cases before flagging Large Switch."
+        },
+        "codewhiff.java.enableManyCatches": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Too Many Catches detection for Java."
+        },
+        "codewhiff.java.manyCatchesThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Max catch blocks in a try before flagging Too Many Catches."
+        },
+        "codewhiff.java.enableEmptyCatch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Empty Catch Block detection for Java."
+        },
+        "codewhiff.java.enableLargeClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Large Class detection for Java."
+        },
+        "codewhiff.java.largeClassLineThreshold": {
+          "type": "number",
+          "default": 500,
+          "minimum": 1,
+          "description": "Max class length in lines before flagging Large Class."
+        },
+        "codewhiff.java.enableFeatureEnvy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Feature Envy detection for Java."
+        },
+        "codewhiff.java.featureEnvyThreshold": {
+          "type": "number",
+          "default": 10,
+          "minimum": 0,
+          "description": "Max external member accesses before flagging Feature Envy."
+        },
+        "codewhiff.python.enableLongFunction": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Long Function detection for Python."
+        },
+        "codewhiff.python.longFunctionThreshold": {
+          "type": "number",
+          "default": 30,
+          "minimum": 1,
+          "description": "Max statements in a Python function before flagging Long Function."
+        },
+        "codewhiff.python.enableDeepNesting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Deep Nesting detection for Python."
+        },
+        "codewhiff.python.deepNestingThreshold": {
+          "type": "number",
+          "default": 4,
+          "minimum": 1,
+          "description": "Max nesting depth before flagging Deep Nesting."
+        },
+        "codewhiff.python.enableLongParameterList": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Long Parameter List detection for Python."
+        },
+        "codewhiff.python.longParameterListThreshold": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "Max parameters before flagging Long Parameter List."
+        },
+        "codewhiff.python.enableDataClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Data Class detection for Python."
+        },
+        "codewhiff.python.dataClassFieldThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Min assignments (with zero functions) before flagging Data Class."
+        },
+        "codewhiff.python.enableGodClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable God Class detection for Python."
+        },
+        "codewhiff.python.godClassMemberThreshold": {
+          "type": "number",
+          "default": 20,
+          "minimum": 0,
+          "description": "Min total members before flagging God Class."
+        },
+        "codewhiff.python.enableLongMatchCase": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Large match‐case detection for Python."
+        },
+        "codewhiff.python.longMatchCaseThreshold": {
+          "type": "number",
+          "default": 8,
+          "minimum": 0,
+          "description": "Max match‐case patterns before flagging Large match‐case."
+        },
+        "codewhiff.python.enableManyExcepts": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Too Many Excepts detection for Python."
+        },
+        "codewhiff.python.manyExceptsThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "description": "Max except handlers before flagging Too Many Excepts."
+        },
+        "codewhiff.python.enableEmptyExcept": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Empty Except Block detection for Python."
+        },
+        "codewhiff.python.enableLargeClass": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Large Class detection for Python."
+        },
+        "codewhiff.python.largeClassLineThreshold": {
+          "type": "number",
+          "default": 500,
+          "minimum": 1,
+          "description": "Max class length in lines before flagging Large Class."
+        },
+        "codewhiff.python.enableFeatureEnvy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Feature Envy detection for Python."
+        },
+        "codewhiff.python.featureEnvyThreshold": {
+          "type": "number",
+          "default": 10,
+          "minimum": 0,
+          "description": "Max external attribute accesses before flagging Feature Envy."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
