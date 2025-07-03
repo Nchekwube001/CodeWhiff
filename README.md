@@ -1,71 +1,146 @@
-# codewhiff README
+# CodeWhiff
 
-This is the README for your extension "codewhiff". After writing up a brief description, we recommend including the following sections.
+**Static Code Smell Detector for Java & Python in VS Code**
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+CodeWhiff helps developers identify and manage code smells directly in Visual Studio Code. It uses Tree‑sitter parsers to scan Java and Python files for a rich set of smells, provides a colorful, interactive report view, and offers extensive customization and CLI integration.
 
 ---
 
-## Following extension guidelines
+## 🚀 Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- **Real-time diagnostics** on file open, save, or change
+- **Comprehensive smell library** for Java & Python:
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+  - Long Methods/Functions
+  - Deep Nesting
+  - Long Parameter Lists
+  - Too Many Boolean Parameters (Java)
+  - Data Classes (fields only)
+  - God Classes (too many members)
+  - Interface Overload (Java)
+  - Large Switch / Match-Case
+  - Too Many Catches/Excepts
+  - Empty Catch/Except
+  - Large Class (line count)
+  - Feature Envy (external mem access)
 
-## Working with Markdown
+- **Configurable thresholds & toggles** via Settings UI
+- **Project-wide Smell Report** in a styled Webview (Tailwind-based)
+- **Welcome & onboarding UI** on first activation
+- **Persistent rule-sets**: export/import to `.codewhiffrc.json`
+- **Legacy command** to quickly scan current file and show count
+- **CLI tool**: traverse directories, parse files, output JSON
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+---
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+## 📦 Installation
 
-## For more information
+1. **Install in VS Code**
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+   1. Clone or download this repository.
+   2. Run `npm install` in the root.
+   3. Compile: `npm run build`.
+   4. In VS Code: **Run Extension** from Debug sidebar.
+   5. Or **Package** with `vsce package` and install the generated `.vsix`.
 
-**Enjoy!**
+2. **(Optional) CLI setup**
+
+   - After build, link CLI:
+
+     ```bash
+     npm link   # creates global `codewhiff` command
+     ```
+
+   - Or run locally:
+
+     ```bash
+     node dist/cli.js ./path/to/project
+     ```
+
+---
+
+## ⚙️ Usage
+
+### Commands
+
+| Command                       | Default Keybinding | Description                                    |
+| ----------------------------- | ------------------ | ---------------------------------------------- |
+| CodeWhiff: Show Smell Report  | `⇧⌘R`              | Show districtated report panel for open files  |
+| CodeWhiff: Show Smell Summary | `⇧⌘T`              | Scan current file and show smell count         |
+| CodeWhiff: Export Settings    | `⇧⌘E`              | Export current rule-set to `.codewhiffrc.json` |
+| CodeWhiff: Import Settings    | `⇧⌘I`              | Import rule-set from `.codewhiffrc.json`       |
+
+Invoke these via the Command Palette (`Cmd+Shift+P`).
+
+### Settings
+
+All settings are under **Extensions → CodeWhiff** (namespace `codewhiff`). Example keys:
+
+```json
+"codewhiff.java.enableLongMethod": true,
+"codewhiff.java.longMethodThreshold": 30,
+"codewhiff.python.enableLongFunction": true,
+"codewhiff.python.longFunctionThreshold": 30
+```
+
+Adjust thresholds or disable specific smells to suit your code style.
+
+### Welcome & Onboarding
+
+On first activation, CodeWhiff displays:
+
+- A prompt to **Open Settings** or **View Docs**
+- A vibrant Webview panel with usage tips and quick buttons
+
+You can revisit docs anytime via the **View Documentation** button or the Command Palette.
+
+### Persistence
+
+Create or update `.codewhiffrc.json` in your workspace:
+
+```bash
+Cmd+Shift+E → Export Settings
+# then commit .codewhiffrc.json
+```
+
+Share that file across your team; re-import with **CodeWhiff: Import Settings**.
+
+---
+
+## 🖥️ CLI
+
+Scan an entire project outside VS Code:
+
+```bash
+# global install via npm link or published package
+codewhiff ./src > smell-report.json
+```
+
+Outputs JSON array of `{ file: string, smells: string[] }` for CI or reporting.
+
+---
+
+## 📚 Extending & Configuring
+
+- **Add new smells** by editing `smellDetectors.ts` under `JavaSmellDetector` or `PythonSmellDetector`.
+- **Update settings schema** in `package.json > contributes.configuration` to expose new toggles/thresholds.
+- **Customize report UI** in `extension.ts > showReportPanel` with your own styling.
+
+---
+
+## 🤝 Contributing
+
+1. Fork & clone.
+2. `npm install` & `npm run build`.
+3. Create a feature branch, implement changes, and update README/test.
+4. Submit a pull request.
+
+---
+
+## 📄 License
+
+MIT © Toby
+
+---
+
+_Happy smell-free coding!_
